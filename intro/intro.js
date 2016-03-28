@@ -18,3 +18,4 @@ function sum(array) {
     total += array[i];
   return total;
 }
+
