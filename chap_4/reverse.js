@@ -12,8 +12,6 @@ function reverseArrayInPlace(arr) {
         arr[arrPnt] = arr[arr.length - 1 - arrPnt];
         arr[arr.length - 1 - arrPnt] = temp;     
     }
-
-    return arr
 }
 
 console.log(reverseArray(["A", "B", "C"]));
