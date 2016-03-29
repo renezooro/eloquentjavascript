@@ -19,3 +19,7 @@ function sum(array) {
   return total;
 }
 
+module.exports = {
+    range: range,
+    sum: sum
+};
