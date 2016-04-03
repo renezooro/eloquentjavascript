@@ -1,8 +1,8 @@
 var plan = ["############################",
             "#      #    #      o      ##",
-            "#                          #",
+            "#                    o     #",
             "#          #####           #",
-            "##         #   #    ##     #",
+            "##   o     #   #    ##     #",
             "###           ##     #     #",
             "#           ###      #     #",
             "#   ####                   #",
@@ -289,18 +289,130 @@ PlantEater.prototype.act = function(view) {
 
 var valley = new LifelikeWorld(
   ["############################",
-   "#####                 ######",
-   "##   ***                **##",
-   "#   *##**         **  O  *##",
-   "#    ***     O    ##**    *#",
+   "#####        *        ######",
+   "##   ***    *#*         **##",
+   "#   *##**    *    **     *##",
+   "#    ***          ##**    *#",
    "#       O         ##***    #",
    "#                 ##**     #",
-   "#   O       #*             #",
-   "#*          #**       O    #",
-   "#***        ##**    O    **#",
+   "#           #*             #",
+   "#*          #**            #",
+   "#***    O   ##**    O    **#",
    "##****     ###***       *###",
    "############################"],
   {"#": Wall,
    "O": PlantEater,
    "*": Plant}
 );
+var bigmap = new LifelikeWorld(
+   ["##########################################",
+    "#######**    ***                  ***#####",
+    "####****  O  *#*         O         ****###",
+    "##****      *#**              ****   ***##",
+    "#* ***     **#***            *####*    **#",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*                                  #",
+    "#* *##*                O                 #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*      #",
+    "#* *##*     *#**             *####*   ***#",
+    "##****      *#**              ******  O*##",
+    "####****  O  *#*                  *****###",
+    "#######**    ***                 ****#####",
+    "##########################################"],
+   {"#": Wall,
+    "O": PlantEater,
+    "*": Plant}
+    
+            
+      );
+
+function createWorld(Seed) {
+    HashSeed = 0
+    for (var h = 0; h < Seed.length; h++){
+        HashSeed += Math.pow((parseInt(Seed.charCodeAt(h))) % 16,(h+1));
+    }
+    console.log(HashSeed);
+    var width = HashSeed % 255;
+    console.log(width);
+    var height = HashSeed % 31;
+    var area = width * height;
+    var line = "";
+    var world = [];
+    var wallToken = "#";
+    var plantEaterToken = "O";
+    var plantToken = "*";
+    ////////////////
+    for (var boxHead = 0; boxHead < width; boxHead++) {
+        line += wallToken;
+        }
+    /////////////
+    world.push(line);
+   line = "#";
+   for (var boxW = 1; boxW < width - 1; boxW++) {
+            line += " ";
+        }
+   line += "#";
+   for (var boxH = 1; boxH < height - 1; boxH++) {
+        world.push(line);
+    }
+    /////////////////
+    line = "";
+       for (var boxHead = 0; boxHead < width; boxHead++) {
+        line += wallToken;
+    }
+    world.push(line);
+   ////////////////////////////////////////////
+   
+    var wallVar = HashSeed % (area / ((HashSeed % 5)+2));
+    var wallObj = wallVar % (HashSeed % (wallVar / 2));
+
+    
+    //while (wallObj > 0) {
+    //    var coord = {x: (wallVar/wallObj) % length, y: (wallVar/wallObj) % length + 1};
+    //   
+    //    popCoord(coord.x, coord.y, length, world, wallToken);
+    //     var where = {x: wallVar/WallObj % 8, y: (wallVar % wallObj) % 8};
+    //        wallObj--;
+    //    }
+    console.log(world);
+    var rand = new LifelikeWorld(world,  
+        {wallToken: Wall,
+        plantEaterToken: PlantEater,
+        plantToken: Plant});
+    
+   animateWorld(rand);
+        
+    
+    
+}
+
+        function popCoord(x, y, length, world, token) {
+            var popWorld = [];
+            for (var down = 0; down < y; down++ ) {
+                popWorld.push(world.pop());
+            
+            }
+            line = (world.pop());
+            if(line.charAt(x) = "") setCharAt(line, x, token);
+            
+            
+            popWorld.push(line)
+            for (var down = y; down < length; down++ ) {
+                popWorld.push(world.pop());
+            
+            }
+            world = popWorld;
+        }
+        
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
