@@ -373,16 +373,17 @@ function createWorld(Seed) {
    
     var wallVar = HashSeed % (area / ((HashSeed % 5)+2));
     var wallObj = wallVar % (HashSeed % (wallVar / 2));
-
+    var NxtwallVar = wallVar - wallVar % wallObj;
     
-    //while (wallObj > 0) {
-    //    var coord = {x: (wallVar/wallObj) % length, y: (wallVar/wallObj) % length + 1};
-    //   
-    //    popCoord(coord.x, coord.y, length, world, wallToken);
-    //     var where = {x: wallVar/WallObj % 8, y: (wallVar % wallObj) % 8};
-    //        wallObj--;
-    //    }
-    console.log(world);
+    while (wallObj > 0) {
+        var coord = {x: (wallVar/wallObj) % length, y: (wallVar/wallObj) % length + 1};
+       
+        popCoord(coord.x, coord.y, length, world, wallToken);
+         var where = {x: wallVar/wallObj % 8, y: (wallVar % wallObj) % 8};
+            wallObj--;
+            NxtwallVar = wallVar - wallVar % wallObj;
+        }
+   console.log(world);
     var rand = new LifelikeWorld(world,  
         {wallToken: Wall,
         plantEaterToken: PlantEater,
@@ -396,12 +397,13 @@ function createWorld(Seed) {
 
         function popCoord(x, y, length, world, token) {
             var popWorld = [];
+            var line;
             for (var down = 0; down < y; down++ ) {
                 popWorld.push(world.pop());
             
             }
             line = (world.pop());
-            if(line.charAt(x) = "") setCharAt(line, x, token);
+            if(line.charAt(x) == "") line = setCharAt(line, x, token);
             
             
             popWorld.push(line)
@@ -410,6 +412,7 @@ function createWorld(Seed) {
             
             }
             world = popWorld;
+            console.log(world)
         }
         
 function setCharAt(str,index,chr) {
